@@ -9,24 +9,8 @@
  var fs = require('fs');
  var port = 3100;
  
- function serveImage(filename, req, res) {
-	fs.readFile('images/' + filename, function(err, body){
-		if(err) {
-			console.error(err);
-			res.statusCode = 500;
-			res.statusMessage = "whoops";
-			res.end("Silly me");
-			return;
-		}
-	res.setHeader("Content-Type", "image/jpeg");
-	res.end(body); 
-	});
- }
- 
- 
  var server = http.createServer(function(req, res) {
-	 
- switch(req.url){
+	switch(req.url){
 	 case "/chess":
 		 serveImage('chess.jpg', req, res)
 		 break;
@@ -44,11 +28,29 @@
 		 break;
 	 default:
 		 res.statusCode = 404;
-		 resstatusMessage = "Not found";
+		 res.statusMessage = "Not found";
 		 res.end();
 	}
  });
  
+ 
+ 
+ function serveImage(filename, req, res) {
+	var data = fs.readFile('images/' + filename, function(err, body){
+		if(err) {
+			console.error(err);
+			res.statusCode = 500;
+			res.statusMessage = "whoops";
+			res.end("Silly me");
+			return;
+		}
+	res.setHeader("Content-Type", "image/jpeg");
+	res.end(body); 
+	});
+ }
+ 
+ 
+
   server.listen(port, function(){
-	console.log("Listening on Port " + port);
+	console.log("Server is listening on port " + port);
  });
