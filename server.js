@@ -125,7 +125,7 @@
 	 case '/':
 	 case '/gallery':
 		if(req.method == 'GET') {
-			serverGallery(req, res);
+			serveGallery(req, res);
 		} else if (req.method == 'POST') {
 			uploadPicture(req, res);
 		}
@@ -140,7 +140,7 @@
 		res.end(stylesheet);
 		break;
 	 default:
-	 serveImage(req.url, req, res);
+	 serveGallery(req, res);
 	}
  });
  
