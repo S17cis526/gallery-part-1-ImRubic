@@ -21,6 +21,7 @@ var script = fs.readFileSync('public/gallery.js');
 
 /* load public directory*/
 staticFiles.loadDir('public');
+
 /* load templates */
 template.loadDir('templates');
 
@@ -163,18 +164,16 @@ function handleRequest(req, res) {
         uploadImage(req, res);
       }
       break;
-    case '/gallery.css':
-      res.setHeader('Content-Type', 'text/css');
-      res.end(stylesheet);
-      break;
-	case '/gallery.js':
-		res.setHeader('Content-Type', 'text/javascript');
-		res.end(script);
-		break;
 	case '/favicon.ico':
 	  break;
     default:
-      serveImage(req.url, req, res);
+      console.log(req.url);
+	  if(staticFiles.isCached('public' + req.url)) {
+		  staticFiles.serveFile('public' + req.url, req, res);
+	  }
+	  else {
+		  serveImage(req.url, req, res);
+	  }
   }
 }
 
